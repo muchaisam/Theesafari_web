@@ -3,7 +3,7 @@ import React from "react";
 const Category = ({ title, description, image, spotify }) => (
   <div style={styles.cardListContainer} data-aos="zoom-y-out">
   <div style={{ ...styles.cardContainer, backgroundImage: `url(${image})` }}>
-  <div style={styles.textContainer} className = "text-orange-500 font-poppins font-semibold">
+  <div style={styles.textContainer} className = "text-orange-500 font-poppins font-semibold bg-black">
       <h2 style={styles.cardTitle}>{title}</h2>
     </div>
   </div>
@@ -26,8 +26,8 @@ const styles = {
     width: "280px",
     borderRadius: "18px",
     backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center center",
     margin: "20px",
     animation: "bannermove 10s linear infinite",
     boxShadow: "0px 0px 10px 2px gray",
