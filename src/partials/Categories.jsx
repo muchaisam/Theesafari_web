@@ -1,10 +1,30 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Transition from '../utils/Transition';
 import Category from './Category';
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import { auth, db } from '../firebase/firebase';
 
-function Features() {
+function Categories() {
 
- 
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Retrieve data from Firebase database
+    const categoriesRef = firebase.database().ref("categories");
+    categoriesRef.on("value", (snapshot) => {
+      const categoriesData = snapshot.val();
+      const categoriesList = Object.keys(categoriesData).map((key) => ({
+        id: key,
+        ...categoriesData[key]
+      }));
+      setCategories(categoriesList);
+    });
+
+    return () => firebase.database().ref("categories").off();
+  }, []);
+
+
+
 
   return (
     <section className="relative">
@@ -24,44 +44,13 @@ function Features() {
 
           {/* Section content */}
           <div style={{ display: "flex", alignItems: "center", overflowX: "scroll", scrollbarWidth: "none" }}>
-            <Category
-              title="Parks and Gardens"
-              image="https://images.unsplash.com/photo-1598941101837-e3fdd6d94b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmFpcm9iaXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-            />
-            <Category
-              title="Cafes and Restaurants"
-              image="https://images.unsplash.com/photo-1598941101837-e3fdd6d94b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmFpcm9iaXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-            />
-            <Category
-              title="Museums and Galleries"
-              image="https://images.unsplash.com/photo-1598941101837-e3fdd6d94b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmFpcm9iaXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=609"
-            />
-            <Category
-              title="Historical Sites and Landmarks"
-              image="https://images.unsplash.com/photo-1598941101837-e3fdd6d94b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmFpcm9iaXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-            />
-            <Category
-              title="Quiet Neighborhoods and Streets"
-              image="https://images.unsplash.com/photo-1598941101837-e3fdd6d94b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmFpcm9iaXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-            />
-            <Category
-              title="Wellness and Spa"
-              image="https://images.unsplash.com/photo-1598941101837-e3fdd6d94b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmFpcm9iaXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-            />
-            <Category
-              title="Nature Trails and Hikes"
-              image="https://images.unsplash.com/photo-1598941101837-e3fdd6d94b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmFpcm9iaXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-            />
-            <Category
-              title="Trio Mio"
-              image="https://images.unsplash.com/photo-1598941101837-e3fdd6d94b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmFpcm9iaXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-            />
-
-            <Category
-              title="Wakadinali"
-              image="https://images.unsplash.com/photo-1598941101837-e3fdd6d94b24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8bmFpcm9iaXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-            />
-
+            {categories.map((category) => (
+              <Category
+                key={category.id}
+                title={category.name}
+                image={category.image}
+              />
+            ))}
           </div>
 
         </div >
@@ -70,4 +59,4 @@ function Features() {
   );
 }
 
-export default Features;
+export default Categories;
