@@ -41,7 +41,7 @@ const styles = {
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     margin: "20px",
-    boxShadow: "0px 0px 10px 2px orange",
+    boxShadow: "5px 3px 10px 2px teal",
     "@media (maxwidth: 400px)": {
       width: "100%",
       height: "150px"
