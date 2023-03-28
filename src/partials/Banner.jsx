@@ -7,17 +7,34 @@ function Banner() {
   return (
     <>
     { bannerOpen && (
-      <div className="fixed bottom-0 right-0 w-full md:bottom-8 md:right-12 md:w-auto z-60">
-        <div className="bg-slate-800 text-slate-50 text-sm p-3 md:rounded shadow-lg flex justify-between">
-          <div className='text-slate-500 inline-flex'><a className="font-medium hover:underline text-slate-50" rel="noreferrer">This website uses<span class="hidden sm:inline"> Cookies</span></a> </div>
-          <button className="text-slate-500 hover:text-slate-400 pl-2 ml-3 border-l border-gray-700" onClick={() => setBannerOpen(false) }>
-            <span className="sr-only">Close</span>
-            <svg className="w-4 h-4 shrink-0 fill-current" viewBox="0 0 16 16">
-              <path d="M12.72 3.293a1 1 0 00-1.415 0L8.012 6.586 4.72 3.293a1 1 0 00-1.414 1.414L6.598 8l-3.293 3.293a1 1 0 101.414 1.414l3.293-3.293 3.293 3.293a1 1 0 001.414-1.414L9.426 8l3.293-3.293a1 1 0 000-1.414z" />
-            </svg>
-          </button>
-        </div>
+      <div class="fixed bottom-0 p-4">
+      <div
+        class="relative flex items-center justify-between gap-4 rounded-lg bg-teal-600 px-4 py-3 text-white shadow-lg"
+      >
+        <p class="text-sm font-medium">
+        We use cookies to make our website a treat for you, not a trick!
+        </p>
+    
+        <button
+          aria-label="Close"
+          class="shrink-0 rounded-lg bg-black/10 p-1 transition hover:bg-black/20"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
       </div>
+    </div>
+    
     )}
     </>
   );
