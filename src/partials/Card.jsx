@@ -1,5 +1,5 @@
 import React from "react";
-import { FaLocationArrow } from "react-icons/fa";
+import { FaLocationArrow, FaInstagram } from "react-icons/fa";
 
 
 
@@ -7,7 +7,6 @@ import { FaLocationArrow } from "react-icons/fa";
 const Card = ({ title, description, image, location }) => (
   <div style={styles.cardListContainer} data-aos="zoom-y-out">
   <div style={{ ...styles.cardContainer, backgroundImage: `url(${image})` }}>
-  </div>
   <div style={styles.textContainer} className = "text-black font-poppins font-semibold">
       <h2 style={styles.cardTitle}>{title}</h2>
       <p style={styles.cardDescription}>{description}</p>
@@ -16,9 +15,13 @@ const Card = ({ title, description, image, location }) => (
             <a href={location}>
               <FaLocationArrow style={styles.icon} />
             </a>
+            <a href={location}>
+              <FaInstagram style={styles.icon} />
+            </a>
           </li>
         )}
     </div>
+  </div>
   </div>
 );
 
@@ -49,12 +52,14 @@ const styles = {
   },
   textContainer: {
     padding: "5px",
+    backdropFilter: "blur(5px)",
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
     width: "100%",
     borderRadius: "0 0 10px 10px"
   },
   cardTitle: {
     margin: 0,
-    fontSize: "20px",
+    fontSize: "17px",
     textAlign: "center"
   },
   cardDescription: {
@@ -70,7 +75,8 @@ const styles = {
   icon: {
     fontSize: "30px",
     color : "#e45724",
-    margin: "0 10px"
+    margin: "0 10px",
+    textAlign: "center"
   },
 };
 

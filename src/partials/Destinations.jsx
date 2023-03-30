@@ -1,7 +1,27 @@
-import React from 'react';
 import Card from "./Card";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import { auth, db } from '../firebase/firebase';
+import React, { useState, useRef, useEffect } from 'react';
 
-function FeaturesBlocks() {
+function Destinations() {
+
+  const [picks, setPicks] = useState([]);
+
+  useEffect(() => {
+    // Retrieve data from Firebase database
+    const picksRef = firebase.database().ref("picks");
+    picksRef.on("value", (snapshot) => {
+      const picksData = snapshot.val();
+      const picksList = Object.keys(picksData).map((key) => ({
+        id: key,
+        ...picksData[key]
+      }));
+      setPicks(picksList);
+    });
+
+    return () => firebase.database().ref("picks").off();
+  }, []);
   return (
     <section className="relative">
 
@@ -14,59 +34,20 @@ function FeaturesBlocks() {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2 mb-4">Popular Destinations</h2>
-            <p className="text-gray-600">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat.</p>
+            <h2 className="h2 mb-4">Top Picks</h2>
+            <p className="text-gray-600">Check out our top destination picks now and start planning your next adventure!</p>
           </div>
 
           {/* Items */}
 
           <div style={{ display: "flex", alignItems: "center", overflowX: "scroll", scrollbarWidth: "none" }}>
-            <Card
-              title="The Kaneda"
-              image="https://images.unsplash.com/photo-1599555217300-2952310d238e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bmFpcm9iaSUyMG5hdGlvbmFsJTIwcGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-              location="https://open.spotify.com/track/2f90V3j7olJdSjZv4g2nrG?si=1lsI1tTIQZi0iN-swYCwvQ"
-            />
-            <Card
-              title="Rekles"
-              image="https://images.unsplash.com/photo-1599555217300-2952310d238e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bmFpcm9iaSUyMG5hdGlvbmFsJTIwcGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-              location="https://open.spotify.com/track/2f90V3j7olJdSjZv4g2nrG?si=1lsI1tTIQZi0iN-swYCwvQ"
-            />
-            <Card
-              title="Kenrazy"
-              image="https://images.unsplash.com/photo-1599555217300-2952310d238e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bmFpcm9iaSUyMG5hdGlvbmFsJTIwcGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-              location="https://open.spotify.com/artist/5A7XrYtOkfJOaGyg1fj1ez?si=gcDrVpGCSxiqGhQJ_rwQAg"
-            />
-            <Card
-              title="Ch'cco"
-              image="https://images.unsplash.com/photo-1599555217300-2952310d238e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bmFpcm9iaSUyMG5hdGlvbmFsJTIwcGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-              location="https://open.spotify.com/track/7JtWy2vvKVXLaymyTXUJ0K?si=5UTeKlghQZq18cX_zhresg"
-            />
-            <Card
-              title="Buruklyn Boyz"
-              image="https://images.unsplash.com/photo-1599555217300-2952310d238e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bmFpcm9iaSUyMG5hdGlvbmFsJTIwcGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-              location="https://open.spotify.com/track/4xIFdWcoMb9MqLYpvS8uCy?si=nUVwM82JTgWUXniieO2GLg"
-            />
-            <Card
-              title="AjeButter22"
-              image="https://images.unsplash.com/photo-1599555217300-2952310d238e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bmFpcm9iaSUyMG5hdGlvbmFsJTIwcGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-              location="https://open.spotify.com/track/4fA1ca0O5tOOYDWt1n0z2d?si=28f3b632f5b24625"
-            />
-            <Card
-              title="T.I.E.M"
-              image="https://images.unsplash.com/photo-1599555217300-2952310d238e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bmFpcm9iaSUyMG5hdGlvbmFsJTIwcGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-              location="https://open.spotify.com/track/7K8bQsvWhJ8apmdiUm7TUx?si=rSjPRC5kRE2-qRTh05WZ-Q"
-            />
-            <Card
-              title="Trio Mio"
-              image="https://images.unsplash.com/photo-1599555217300-2952310d238e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bmFpcm9iaSUyMG5hdGlvbmFsJTIwcGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-              location="https://open.spotify.com/artist/1YSv5pS7iY49Ech2SfHryX?si=WH9Yb3EWTNS4_Kq5EQEtoQ&utm_source=copy-link"
-            />
-
-            <Card
-              title="Wakadinali"
-              image="https://images.unsplash.com/photo-1599555217300-2952310d238e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bmFpcm9iaSUyMG5hdGlvbmFsJTIwcGFya3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-              location="https://open.spotify.com/artist/10jefIr7Jj7c0dDJEqRcWK?si=wijrTYicScK559XW_gmiXw&utm_source=copy-link"
-            />
+          {picks.map((pick) => (
+              <Card
+                key={pick.id}
+                title={pick.name}
+                image={pick.image}
+              />
+            ))}
 
           </div>
 
@@ -77,4 +58,4 @@ function FeaturesBlocks() {
   );
 }
 
-export default FeaturesBlocks;
+export default Destinations;
