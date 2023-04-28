@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { Link as ScrollLink } from 'react-scroll';
+import nbo from '../assets/nbo.webp';
 
 function HeroHome() {
 
@@ -12,7 +13,7 @@ function HeroHome() {
     justifyContent: 'center',
     width: '100%',
     minHeight: '100vh',
-    backgroundImage: 'url("https://images.unsplash.com/photo-1611348524140-53c9a25263d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bmFpcm9iaXxlbnwwfHwwfHw%3D")',
+    backgroundImage: `url(${nbo})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
