@@ -2,6 +2,7 @@ import Card from "./Card";
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import { auth, db } from '../firebase/firebase';
+import { Link } from "react-router-dom";
 import React, { useState, useRef, useEffect } from 'react';
 
 function Destinations() {
@@ -42,11 +43,12 @@ function Destinations() {
 
           <div style={{ display: "flex", alignItems: "center", overflowX: "scroll", scrollbarWidth: "none" }}>
           {picks.map((pick) => (
+            <Link key={pick.id} to={`/picks/${pick.id}`}>
               <Card
-                key={pick.id}
                 title={pick.name}
                 image={pick.image}
               />
+              </Link>
             ))}
 
           </div>
