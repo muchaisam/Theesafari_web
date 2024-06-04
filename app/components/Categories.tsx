@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useState, useEffect} from 'react';
 import Category from './Category';
 import {db} from '../firebase/firebase';
