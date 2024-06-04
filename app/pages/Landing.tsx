@@ -7,9 +7,11 @@ import HeroHome from '../components/Hero';
 import Categories from '../components/Categories';
 import Destinations from '../components/Destinations';
 import Gallery from '../components/Gpreview';
-import Newsletter from '../components/Newsletter';
+import CTA from '../components/CTA';
 import Footer from '../components/Footer';
 import Banner from '../components/Banner';
+import About from "@/app/components/About";
+import Explore from "@/app/components/Explore";
 
 function Landing() {
   return (
@@ -23,10 +25,12 @@ function Landing() {
 
         {/*  Page sections */}
         <HeroHome />
-        <Categories />
+        <About />
+          <Categories />
+          <Explore/>
         <Destinations />
         <Gallery />
-        <Newsletter />
+        <CTA />
 
       </main>
 
