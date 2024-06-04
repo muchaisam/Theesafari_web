@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const Explore : React.FC = () => {
+const Explore: React.FC = () => {
     return (
         <section>
             <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -9,7 +9,9 @@ const Explore : React.FC = () => {
                     <h2 className="text-xl font-bold sm:text-3xl">Unearth Kenya&apos;s Hidden Treasures</h2>
 
                     <p className="mx-auto mt-4 text-gray-500">
-                        Step off the well-trodden path and discover the magic of Kenya&apos;s hidden gems. From secret beaches and hidden waterfalls to vibrant local markets and cultural festivals, let us guide you to the authentic experiences that make Kenya truly unforgettable.
+                        Step off the well-trodden path and discover the magic of Kenya&apos;s hidden gems. From secret
+                        beaches and hidden waterfalls to vibrant local markets and cultural festivals, let us guide you
+                        to the authentic experiences that make Kenya truly unforgettable.
                     </p>
                 </header>
 
@@ -21,7 +23,7 @@ const Explore : React.FC = () => {
                                 alt="about placeholder alt text"
                                 width={400}
                                 height={400}
-                                className="aspect-square w-full object-cover transition duration-500 group-hover:opacity-90"
+                                className="aspect-square rounded-lg w-full object-cover transition duration-500 group-hover:opacity-90"
                             />
 
                             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
@@ -43,11 +45,12 @@ const Explore : React.FC = () => {
                                 alt="about placeholder alt text"
                                 width={400}
                                 height={400}
-                                className="aspect-square w-full object-cover transition duration-500 group-hover:opacity-90"
+                                className="aspect-square w-full rounded-t-lg object-cover transition duration-500 group-hover:opacity-90"
                             />
 
                             <div className="absolute inset-0 flex flex-col items-start justify-end p-6">
-                                <h3 className="text-xl font-medium text-white">Cultural Encounters: Embrace Traditions</h3>
+                                <h3 className="text-xl font-medium text-white">Cultural Encounters: Embrace
+                                    Traditions</h3>
 
                                 <span
                                     className="mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
