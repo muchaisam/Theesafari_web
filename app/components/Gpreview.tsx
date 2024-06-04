@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { FaRegImages } from 'react-icons/fa';
 import Link from 'next/link';
