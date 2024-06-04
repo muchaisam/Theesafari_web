@@ -1,15 +1,20 @@
-import React from "react";
+import React, {memo} from "react";
+import Image from "next/image";
 
 interface CategoryProps {
-  title: string;
-  image: string;
+    key: string;
+    title: string;
+    image: string;
+    alt: string; // Add this line
 }
 
-const Category: React.FC<CategoryProps> = ({ title, image }) => (
+const Category: React.FC<CategoryProps> = memo(({ title, image, alt }) => (
   <a href="#" className="block rounded-lg p-4 shadow-sm shadow-indigo-100 mr-4">
-    <img
-      alt=""
+    <Image
+      alt="Category image"
       src={image}
+      width={300}
+      height={200}
       className="h-56 w-full rounded-md object-cover"
     />
 
@@ -95,6 +100,8 @@ const Category: React.FC<CategoryProps> = ({ title, image }) => (
       </div>
     </div>
   </a>
-);
+));
+
+Category.displayName = "Category";
 
 export default Category;
