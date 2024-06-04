@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from "next/image";
 
 const CTA: React.FC = () => {
     return (
@@ -30,13 +31,17 @@ const CTA: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 md:grid-cols-1 lg:grid-cols-2">
-                        <img
+                        <Image
+                            width={640}
+                            height={480}
                             alt=""
                             src="/waterfall.webp"
                             className="h-40 w-full object-cover sm:h-56 md:h-full"
                         />
 
-                        <img
+                        <Image
+                            width={640}
+                            height={480}
                             alt=""
                             src="/nbo.webp"
                             className="h-40 w-full object-cover sm:h-56 md:h-full"
