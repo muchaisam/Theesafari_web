@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { db } from '../firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
+import Image from "next/image";
 
 // Define the type of pick
 interface Pick {
@@ -49,7 +50,10 @@ const Destinations: React.FC = () => {
               {picks.map((pick) => (
                   <Link key={pick.id} href={`/picks/${pick.id}`}>
                     <div className="max-w-sm rounded overflow-hidden shadow-lg mr-6 w-64 h-auto">
-                      <img className="w-full h-48 object-cover" src={pick.image} alt="Card image cap"/>
+                      <Image
+                          width={640}
+                            height={480}
+                          className="w-full h-48 object-cover" src={pick.image} alt="Card image cap"/>
                       <div className="px-6 py-4">
                         <div className="font-bold text-l mb-2">{pick.name}</div>
                         <p className="text-gray-700 text-base">{pick.description}</p>

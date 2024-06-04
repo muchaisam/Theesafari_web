@@ -7,16 +7,20 @@ interface LogoProps {
   height: number;
 }
 
+interface FooterLinkProps {
+  href: string;
+  children: React.ReactNode;
+}
+
 const Logo: React.FC<LogoProps> = ({ width, height }) => (
     <Image src="/safari.webp" width={50} height={50} alt="Theesafari Logo" />
 );
 
-const FooterLink: React.FC<{ href: string }> = ({ href, children }) => (
-    <li>
-      <Link href={href}
-         className="text-gray-700 transition hover:text-gray-700/75">{children}
-      </Link>
-    </li>
+const FooterLink: React.FC<FooterLinkProps> = ({ href, children }) => (
+  <li>
+    <Link href={href} className="text-gray-700 transition hover:text-gray-700/75">{children}
+    </Link>
+  </li>
 );
 
 const Footer: React.FC = () => {
