@@ -24,3 +24,31 @@
 [x-cloak=""] {
     display: none;
 }
+
+
+.shimmer-wrapper {
+  /* Add styles for the shimmer wrapper here */
+}
+
+.shimmer {
+  /* Add styles for the shimmer effect here */
+  background: #797979 linear-gradient(to right, rgb(161, 160, 160) 0%, #e3dfdf 20%, #9f9f9f 40%, #f6f7f8 100%) no-repeat;
+  background-size: 800px 104px;
+  display: inline-block;
+  position: relative;
+
+  /* Animation */
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+}
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0
+  }
+  100% {
+    background-position: 468px 0
+  }
+}
