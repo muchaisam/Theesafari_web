@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {IoIosLocate} from "react-icons/io";
 import {Facebook, Instagram, Mail, Phone, Twitter} from "react-feather";
+import Image from "next/image";
 
 export default function Component() {
   return (
@@ -11,7 +12,7 @@ export default function Component() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 lg:gap-16">
             <div className="flex flex-col items-start">
               <div className="flex items-center mb-4">
-                <img
+                <Image
                     src="/safari.webp"
                     alt="Kenyan Travel"
                     width={40}
