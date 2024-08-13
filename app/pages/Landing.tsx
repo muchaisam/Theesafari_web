@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -6,7 +6,7 @@ import Header from '../components/Header';
 import HeroHome from '../components/Hero';
 import Categories from '../components/Categories';
 import Destinations from '../components/Destinations';
-import Gallery from '../components/Gpreview';
+import Gallery from '../components/GalleryPreview';
 import CTA from '../components/CTA';
 import Footer from '../components/Footer';
 import Banner from '../components/Banner';
@@ -14,33 +14,33 @@ import About from "@/app/components/About";
 import Explore from "@/app/components/Explore";
 
 function Landing() {
-  return (
-    <div className="flex flex-col min-h-screen overflow-hidden">
+    return (
+        <div className="flex flex-col min-h-screen overflow-hidden">
 
-      {/*  Site header */}
-      <Header />
+            {/*  Site header */}
+            <Header/>
 
-      {/*  Page content */}
-      <main className="flex-grow">
+            {/*  Page content */}
+            <main className="flex-grow">
 
-        {/*  Page sections */}
-        <HeroHome />
-        <About />
-          <Categories />
-          <Explore/>
-        <Destinations />
-        <Gallery />
-        <CTA />
+                {/*  Page sections */}
+                <HeroHome/>
+                <About/>
+                <Categories/>
+                <Explore/>
+                <Destinations/>
+                <Gallery/>
+                <CTA/>
 
-      </main>
+            </main>
 
-      <Banner />
+            <Banner/>
 
-      {/*  Site footer */}
-      <Footer />
+            {/*  Site footer */}
+            <Footer/>
 
-    </div>
-  );
+        </div>
+    );
 }
 
 export default Landing;

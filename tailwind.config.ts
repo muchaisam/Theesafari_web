@@ -60,8 +60,8 @@ const config: Config = {
         '3/4': '75%',
         '1/1': '100%',
       },
-      fontFamily: {
-        work_sans: ['Work Sans', 'sans-serif']
+      fontFamily : {
+        sans: ['Inter', 'sans-serif'],
       },
       fontSize: {
         xs: '0.75rem',

@@ -1,65 +1,65 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Link  from "next/link";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { GiWillowTree } from "react-icons/gi";
+import { Menu } from "react-feather";
 
-interface LogoProps {
-  width: number;
-  height: number;
-}
+export default function Header() {
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-const Logo: React.FC<LogoProps> = ({ width, height }) => (
-  <Image alt={"theesafari"} src="/safari.webp" width={width} height={height} />
-);
-
-const Header: React.FC = () => {
-  const [top, setTop] = useState(true);
-
-  // detect whether user has scrolled the page down by 10px
   useEffect(() => {
-    const scrollHandler = () => {
-      window.pageYOffset > 10 ? setTop(false) : setTop(false)
+    const controlNavbar = () => {
+      if (typeof window !== 'undefined') {
+        if (window.scrollY > lastScrollY) { // if scroll down hide the navbar
+          setIsVisible(false);
+        } else { // if scroll up show the navbar
+          setIsVisible(true);
+        }
+        // remember current page location to use in the next move
+        setLastScrollY(window.scrollY);
+      }
     };
-    window.addEventListener('scroll', scrollHandler);
-    return () => window.removeEventListener('scroll', scrollHandler);
-  }, [top]);
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', controlNavbar);
+
+      // cleanup function
+      return () => {
+        window.removeEventListener('scroll', controlNavbar);
+      };
+    }
+  }, [lastScrollY]);
 
   return (
-    <header className={`fixed w-full z-30 md:bg-opacity-90 transition duration-300 ease-in-out ${!top && 'bg-white backdrop-blur-sm shadow-lg'}`}>
-      <div className="max-w-6xl mx-auto px-5 sm:px-6">
-        <div className="flex items-center justify-between h-16 md:h-20">
-
-          {/* Site branding */}
-          <div className="flex-shrink-0 mr-4">
-            {/* Logo */}
-            <Link href="/" className="block" aria-label="Theesafari">
-              <Logo width={32} height={32} />
-            </Link>
-          </div>
-
-          {/* Site navigation */}
-          <nav className="flex flex-grow">
-            <ul className="flex flex-grow justify-end flex-wrap items-center">
-              <li>
-                <Link href="/signin" className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">Sign in</Link>
-              </li>
-              <li>
-                <Link href="/signup" className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3">
-                  <span>Sign up</span>
-                  <svg className="w-3 h-3 fill-current text-gray-400 flex-shrink-0 ml-2 -mr-1" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z" fillRule="nonzero" />
-                  </svg>
+      <header className={`fixed top-0 z-50 w-full py-4 text-black backdrop-blur-md transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+        <div className="container mx-auto flex items-center justify-between px-4 md:px-6">
+          <Link href="#" className="flex items-center gap-2" prefetch={false}>
+            <GiWillowTree className="h-8 w-8 text-red-500" />
+            <span className="text-lg font-bold text-red-500">Theesafari</span>
+          </Link>
+          <nav className={`${isMenuOpen ? 'flex' : 'hidden'} flex-col absolute top-full left-0 w-full bg-white md:static md:w-auto md:bg-transparent md:flex md:flex-row items-center gap-6`}>
+            {['Home', 'Destinations', 'Experiences', 'About', 'Contact'].map((item) => (
+                <Link key={item} href="#" className="text-sm font-medium py-2 md:py-0" prefetch={false}>
+                  {item}
                 </Link>
-              </li>
-            </ul>
-
+            ))}
           </nav>
-
+          <div className="flex items-center gap-4">
+            <Button className="rounded-full bg-white px-6 py-2 text-sm font-medium hover:bg-cyan-400">
+              Explore Now
+            </Button>
+            <Button
+                className="md:hidden bg-transparent hover:bg-[#F5F0E9] text-[#8C6E4E]"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <Menu />
+            </Button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
   );
 }
-
-export default Header;
