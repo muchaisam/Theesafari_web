@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from 'react-feather';
 import { db } from '../firebase/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import Shimmer from "@/app/utils/Shimmer";
+import Image from "next/image";
 
 interface Category {
     id: string;
@@ -89,9 +90,11 @@ const Categories: React.FC = () => {
                                 transition={{ duration: 0.2 }}
                             >
                                 <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                                    <img
+                                    <Image
                                         src={category.image}
                                         alt={category.name}
+                                        width={1920}
+                                        height={1080}
                                         className="w-full h-40 object-cover"
                                     />
                                     <div className="p-4">
