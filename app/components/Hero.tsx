@@ -14,7 +14,7 @@ export default function HeroSection() {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   return (
       <section className="relative w-full h-screen overflow-hidden">
