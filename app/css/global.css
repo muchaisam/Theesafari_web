@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+
+/* Additional styles */
+@import 'additional-styles/utility-patterns.css';
+@import 'additional-styles/range-slider.css';
+@import 'additional-styles/toggle-switch.css';
+@import 'additional-styles/theme.css';
+
+@import 'tailwindcss/utilities';
+
+/* Additional Tailwind directives: https://tailwindcss.com/docs/functions-and-directives/#responsive */
+@layer utilities {
+    .rtl {
+        direction: rtl;
+    }
+}
+
+/* See Alpine.js: https://github.com/alpinejs/alpine#x-cloak */
+[x-cloak=""] {
+    display: none;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter', sans-serif;
+}
+
+
+.about-wrapper {
+  margin: auto;
+  max-width: 100%;
+  padding: 4rem 1rem;
+}
+
+.about-header {
+  max-width: 75rem;
+}
+
+.about-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+.about-content {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  margin-top: 2rem;
+}
+
+.about-image-wrapper {
+  height: 16rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.about-image {
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  width: 100%;
+}
+
+.about-text {
+  padding-top: 4rem;
+}
+
+.about-article {
+  color: #71717a;
+  space-y: 1rem;
+}
+
+@media (min-width: 640px) {
+  .about-wrapper {
+    padding: 6rem 1.5rem;
+  }
+
+  .about-title {
+    font-size: 2.25rem;
+  }
+
+  .about-image-wrapper {
+    height: 20rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-wrapper {
+    padding: 2rem;
+  }
+
+  .about-content {
+    gap: 4rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .about-image-wrapper {
+    height: 100%;
+  }
+
+  .about-text {
+    padding-top: 0;
+  }
+}
