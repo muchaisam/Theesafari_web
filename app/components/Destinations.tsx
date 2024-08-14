@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import Image from "next/image";
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, MapPin } from 'react-feather';
-import { db } from '../firebase/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import {useRouter} from "next/navigation";
+import LoadingBar from "react-top-loading-bar";
 
 interface Pick {
   id: string;
@@ -16,30 +15,21 @@ interface Pick {
   location: string;
 }
 
-const Destinations: React.FC = () => {
-  const [picks, setPicks] = useState<Pick[]>([]);
+interface DestinationsProps {
+  picks: Pick[];
+}
+
+const Destinations: React.FC<DestinationsProps> = ({ picks }) => {
   const [loading, setLoading] = useState(true);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [progress, setProgress] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
-    const getPicks = async () => {
-      try {
-        const picksCol = collection(db, "picks");
-        const pickSnapshot = await getDocs(picksCol);
-        const picksList: Pick[] = pickSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data()
-        }) as Pick);
-        setPicks(picksList);
-      } catch (error) {
-        console.error("Error fetching picks:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getPicks();
-  }, []);
+    if (picks.length > 0) {
+      setLoading(false);
+    }
+  }, [picks]);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -48,8 +38,18 @@ const Destinations: React.FC = () => {
     }
   };
 
+  const handleClick = (id: string) => {
+    setProgress(30);
+    router.push(`/picks/${id}`);
+  };
+
   return (
       <section className="bg-gray-50 py-16">
+        <LoadingBar
+            color='#f11946'
+            progress={progress}
+            onLoaderFinished={() => setProgress(0)}
+        />
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -83,30 +83,29 @@ const Destinations: React.FC = () => {
                   {picks.map((pick) => (
                       <motion.div
                           key={pick.id}
-                          className="flex-none w-80 mr-6 snap-start"
+                          onClick={() => handleClick(pick.id)}
+                          className="cursor-pointer flex-none w-80 mr-6 snap-start"
                           whileHover={{ scale: 1.05 }}
                           transition={{ duration: 0.2 }}
                       >
-                        <Link href={`/picks/${pick.id}`}>
-                          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                            <div className="relative h-48">
-                              <Image
-                                  fill
-                                  src={pick.image}
-                                  alt={pick.name}
-                                  className="object-cover"
-                              />
-                            </div>
-                            <div className="p-4">
-                              <h3 className="font-bold text-xl mb-2 text-gray-900">{pick.name}</h3>
-                              <p className="text-gray-600 text-sm mb-4">{pick.description}</p>
-                              <div className="flex items-center text-gray-500">
-                                <MapPin className="w-4 h-4 mr-1" />
-                                <span className="text-sm">{pick.location}</span>
-                              </div>
+                        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                          <div className="relative h-48">
+                            <Image
+                                fill
+                                src={pick.image}
+                                alt={pick.name}
+                                className="object-cover"
+                            />
+                          </div>
+                          <div className="p-4">
+                            <h3 className="font-bold text-xl mb-2 text-gray-900">{pick.name}</h3>
+                            <p className="text-gray-600 text-sm mb-4">{pick.description}</p>
+                            <div className="flex items-center text-gray-500">
+                              <MapPin className="w-4 h-4 mr-1" />
+                              <span className="text-sm">{pick.location}</span>
                             </div>
                           </div>
-                        </Link>
+                        </div>
                       </motion.div>
                   ))}
                 </div>
