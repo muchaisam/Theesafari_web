@@ -13,6 +13,7 @@ import Footer from '../components/Footer';
 import Banner from '../components/Banner';
 import About from "@/app/components/About";
 import Explore from "@/app/components/Explore";
+import LandingLoader from "@/app/components/LandingLoader";
 
 interface Pick {
     id: string;
@@ -49,8 +50,9 @@ function Landing() {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <LandingLoader />;
     }
+
 
     if (error) {
         return <div>{error}</div>;
