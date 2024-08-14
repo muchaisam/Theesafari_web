@@ -5,46 +5,46 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar, Users, Tag } from 'lucide-react';
-import Header from '../components/Header';
-import Banner from '../components/Banner';
+import Header from '../../components/Header';
+import Banner from '../../components/Banner';
 import LoadingBar from 'react-top-loading-bar';
-import { db } from '../firebase/firebase'; // Adjust the import path as necessary
+import { db } from '../../firebase/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
 interface Pick {
     id: string;
     image: string;
     name: string;
-    description: string;
-    location: string;
-    duration: string;
-    groupSize: string;
-    price: string;
-    activities: string[];
+    // description: string;
+    // location: string;
+    // duration: string;
+    // groupSize: string;
+    // price: string;
+    // activities: string[];
 }
 
 export default function PickPage({ params }: { params: { id: string } }) {
     const router = useRouter();
     const [pick, setPick] = useState<Pick | null>(null);
     const [loading, setLoading] = useState(true);
-    const [progress, setProgress] = useState(0);
+    const [error, setError] = useState<string | null>(null);
+    const [progress, setProgress] = useState(30);
 
     useEffect(() => {
         const fetchPick = async () => {
-            setProgress(30);
             try {
+                setProgress(50);
                 const docRef = doc(db, 'picks', params.id);
                 const docSnap = await getDoc(docRef);
                 setProgress(70);
                 if (docSnap.exists()) {
                     setPick({ id: params.id, ...docSnap.data() } as Pick);
                 } else {
-                    console.log("No such document!");
-                    router.push('/404'); // Redirect to a 404 page if the pick doesn't exist
+                    setError("Pick not found");
                 }
             } catch (error) {
                 console.error("Error fetching pick: ", error);
-                router.push('/error'); // Redirect to an error page
+                setError("An error occurred while fetching the pick");
             } finally {
                 setLoading(false);
                 setProgress(100);
@@ -54,25 +54,37 @@ export default function PickPage({ params }: { params: { id: string } }) {
         if (params.id) {
             fetchPick();
         }
-    }, [params.id, router]);
+    }, [params.id]);
 
     if (loading) {
         return (
-            <>
+            <div className="flex justify-center items-center h-screen">
                 <LoadingBar
                     color='#f11946'
                     progress={progress}
                     onLoaderFinished={() => setProgress(0)}
                 />
-                <div className="flex justify-center items-center h-screen">
-                    <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-                </div>
-            </>
+                <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex flex-col items-center justify-center h-screen">
+                <h1 className="text-2xl font-bold mb-4">{error}</h1>
+                <button
+                    onClick={() => router.push('/')}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Go back to home
+                </button>
+            </div>
         );
     }
 
     if (!pick) {
-        return null; // This will never be rendered because of the redirect in fetchPick
+        return null;
     }
 
     return (
@@ -84,9 +96,7 @@ export default function PickPage({ params }: { params: { id: string } }) {
             />
             <Header />
 
-            {/*  Page content */}
             <main className="flex-grow">
-
                 <section className="bg-gradient-to-b from-gray-100 to-white">
                     <div
                         style={{
@@ -104,7 +114,7 @@ export default function PickPage({ params }: { params: { id: string } }) {
                             style={{
                                 color: 'white',
                                 fontSize: '2rem',
-                                fontStyle : 'bold',
+                                fontWeight: 'bold',
                                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
                                 padding: '0.5rem 1rem',
                                 borderRadius: '5px',
@@ -112,19 +122,37 @@ export default function PickPage({ params }: { params: { id: string } }) {
                         >
                             {pick.name}
                         </h1>
-                        {/* Add more details as needed */}
                     </div>
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                        <div className="pt-32 pb-12 md:pt-40 md:pb-20">
-
-                        </div>
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+                        <h2 className="text-3xl font-bold mb-4">{pick.name}</h2>
+                        {/*<p className="text-gray-600 mb-4">{pick.description}</p>*/}
+                        {/*<div className="flex items-center mb-2">*/}
+                        {/*    <MapPin className="w-4 h-4 mr-2" />*/}
+                        {/*    <span>{pick.location}</span>*/}
+                        {/*</div>*/}
+                        {/*<div className="flex items-center mb-2">*/}
+                        {/*    <Calendar className="w-4 h-4 mr-2" />*/}
+                        {/*    <span>{pick.duration}</span>*/}
+                        {/*</div>*/}
+                        {/*<div className="flex items-center mb-2">*/}
+                        {/*    <Users className="w-4 h-4 mr-2" />*/}
+                        {/*    <span>{pick.groupSize}</span>*/}
+                        {/*</div>*/}
+                        {/*<div className="flex items-center mb-4">*/}
+                        {/*    <Tag className="w-4 h-4 mr-2" />*/}
+                        {/*    <span>{pick.price}</span>*/}
+                        {/*</div>*/}
+                        {/*<h3 className="text-xl font-bold mb-2">Activities:</h3>*/}
+                        {/*<ul className="list-disc list-inside">*/}
+                        {/*    {pick.activities.map((activity, index) => (*/}
+                        {/*        <li key={index}>{activity}</li>*/}
+                        {/*    ))}*/}
+                        {/*</ul>*/}
                     </div>
                 </section>
-
             </main>
 
             <Banner />
-
         </div>
     );
 }
