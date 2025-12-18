@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { FaRegImages } from 'react-icons/fa';
+import { GiWillowTree } from 'react-icons/gi';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -32,10 +33,10 @@ const Gallery: React.FC<GalleryProps> = ({ places = [] }) => {
       }
     }
 
-    // Fallback if not enough images
+    // Fallback if not enough images - use empty string to trigger placeholder
     while (images.length < 3) {
       images.push({
-        src: '/safari.webp',
+        src: '',
         alt: 'Kenya landscape',
         id: 'default'
       });
@@ -104,14 +105,20 @@ const Gallery: React.FC<GalleryProps> = ({ places = [] }) => {
                 >
                   <Link href={image.id !== 'default' ? `/picks/${image.id}` : '/explore'}>
                     <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg group">
-                      <Image
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        src={imageErrors.has(index) ? '/safari.webp' : image.src}
-                        alt={image.alt}
-                        fill
-                        sizes="(max-width: 768px) 50vw, 250px"
-                        onError={() => handleImageError(index)}
-                      />
+                      {imageErrors.has(index) || !image.src ? (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-teal-500 to-emerald-600">
+                          <GiWillowTree className="w-16 h-16 text-white/60" />
+                        </div>
+                      ) : (
+                        <Image
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                          src={image.src}
+                          alt={image.alt}
+                          fill
+                          sizes="(max-width: 768px) 50vw, 250px"
+                          onError={() => handleImageError(index)}
+                        />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
                   </Link>
@@ -125,14 +132,20 @@ const Gallery: React.FC<GalleryProps> = ({ places = [] }) => {
               >
                 <Link href={galleryImages[2]?.id !== 'default' ? `/picks/${galleryImages[2]?.id}` : '/explore'}>
                   <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg group">
-                    <Image
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      src={imageErrors.has(2) ? '/safari.webp' : galleryImages[2]?.src}
-                      alt={galleryImages[2]?.alt}
-                      fill
-                      sizes="(max-width: 768px) 50vw, 250px"
-                      onError={() => handleImageError(2)}
-                    />
+                    {imageErrors.has(2) || !galleryImages[2]?.src ? (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-teal-500 to-emerald-600">
+                        <GiWillowTree className="w-16 h-16 text-white/60" />
+                      </div>
+                    ) : (
+                      <Image
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        src={galleryImages[2]?.src}
+                        alt={galleryImages[2]?.alt}
+                        fill
+                        sizes="(max-width: 768px) 50vw, 250px"
+                        onError={() => handleImageError(2)}
+                      />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </Link>
