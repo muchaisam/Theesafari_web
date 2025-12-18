@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Grid } from 'react-feather';
+import { GiWillowTree } from 'react-icons/gi';
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import { Category } from '../types/place';
@@ -114,18 +115,24 @@ const Categories: React.FC<CategoriesProps> = ({ categories, loading = false }) 
                                     <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 border border-gray-100">
                                         {/* Image */}
                                         <div className="relative h-36 overflow-hidden">
-                                            <Image
-                                                src={imageErrors.has(category.id) ? '/safari.webp' : category.image}
-                                                alt={category.name}
-                                                fill
-                                                className="object-cover transition-transform duration-500 hover:scale-110"
-                                                onError={() => handleImageError(category.id)}
-                                                sizes="256px"
-                                            />
+                                            {imageErrors.has(category.id) || !category.image ? (
+                                                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-teal-500 to-emerald-600">
+                                                    <GiWillowTree className="w-12 h-12 text-white/60" />
+                                                </div>
+                                            ) : (
+                                                <Image
+                                                    src={category.image}
+                                                    alt={category.name}
+                                                    fill
+                                                    className="object-cover transition-transform duration-500 hover:scale-110"
+                                                    onError={() => handleImageError(category.id)}
+                                                    sizes="256px"
+                                                />
+                                            )}
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
 
                                             {/* Icon overlay */}
-                                            <div className="absolute bottom-3 left-3 w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md text-xl">
+                                            <div className="absolute bottom-3 left-3 w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-md text-xl z-10">
                                                 {getCategoryIcon(category.name)}
                                             </div>
                                         </div>
