@@ -253,7 +253,7 @@ export default function ExplorePage() {
 function PlaceCard({ place, index }: { place: Place; index: number }) {
     const [imageError, setImageError] = useState(false);
 
-    const mainImage = place.primaryImage || '/safari.webp';
+    const mainImage = place.primaryImage;
 
     return (
         <motion.div
@@ -267,19 +267,25 @@ function PlaceCard({ place, index }: { place: Place; index: number }) {
                 <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
                     {/* Image */}
                     <div className="relative h-48 overflow-hidden">
-                        <Image
-                            src={imageError ? '/safari.webp' : mainImage}
-                            alt={place.basic_information?.name || 'Destination'}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-500"
-                            onError={() => setImageError(true)}
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        />
+                        {imageError || !mainImage ? (
+                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-teal-500 to-emerald-600">
+                                <GiWillowTree className="w-16 h-16 text-white/60" />
+                            </div>
+                        ) : (
+                            <Image
+                                src={mainImage}
+                                alt={place.basic_information?.name || 'Destination'}
+                                fill
+                                className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                onError={() => setImageError(true)}
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            />
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
                         {/* Category Badge */}
                         {place.categorization?.primary_category && (
-                            <div className="absolute top-3 left-3">
+                            <div className="absolute top-3 left-3 z-10">
                                 <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-medium text-gray-700 rounded-full">
                                     {place.categorization.primary_category}
                                 </span>
@@ -288,7 +294,7 @@ function PlaceCard({ place, index }: { place: Place; index: number }) {
 
                         {/* Rating */}
                         {place.basic_information?.rating && (
-                            <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 bg-white/90 backdrop-blur-sm rounded-full">
+                            <div className="absolute top-3 right-3 z-10 flex items-center gap-1 px-2 py-1 bg-white/90 backdrop-blur-sm rounded-full">
                                 <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
                                 <span className="text-xs font-semibold">{place.basic_information.rating}</span>
                             </div>
