@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -15,9 +15,10 @@ import Footer from '../../components/Footer';
 import { DetailSkeleton } from '../../components/skeletons';
 import { usePlace } from '../../hooks/useFirestore';
 
-export default function PlacePage({ params }: { params: { id: string } }) {
+export default function PlacePage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = use(params);
     const router = useRouter();
-    const { place, loading, error } = usePlace(params.id);
+    const { place, loading, error } = usePlace(id);
     const [activeImage, setActiveImage] = useState(0);
     const [imageError, setImageError] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
