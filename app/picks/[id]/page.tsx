@@ -9,6 +9,7 @@ import {
     Calendar, AlertTriangle, Compass, Leaf, Info,
     Camera, Share2, Heart
 } from 'lucide-react';
+import { GiWillowTree } from 'react-icons/gi';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { DetailSkeleton } from '../../components/skeletons';
@@ -85,14 +86,20 @@ export default function PlacePage({ params }: { params: { id: string } }) {
                         transition={{ duration: 0.5 }}
                         className="absolute inset-0"
                     >
-                        <Image
-                            src={imageError ? '/safari.webp' : allImages[activeImage]}
-                            alt={basic_information.name}
-                            fill
-                            className="object-cover"
-                            priority
-                            onError={() => setImageError(true)}
-                        />
+                        {imageError || !allImages[activeImage] ? (
+                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-teal-500 to-emerald-600">
+                                <GiWillowTree className="w-32 h-32 text-white/60" />
+                            </div>
+                        ) : (
+                            <Image
+                                src={allImages[activeImage]}
+                                alt={basic_information.name}
+                                fill
+                                className="object-cover"
+                                priority
+                                onError={() => setImageError(true)}
+                            />
+                        )}
                     </motion.div>
                 </AnimatePresence>
 
@@ -179,8 +186,8 @@ export default function PlacePage({ params }: { params: { id: string } }) {
                                 transition={{ delay: 0.2 + index * 0.1 }}
                                 onClick={() => setActiveImage(index)}
                                 className={`relative w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${activeImage === index
-                                        ? 'border-white scale-110'
-                                        : 'border-white/30 hover:border-white/60'
+                                    ? 'border-white scale-110'
+                                    : 'border-white/30 hover:border-white/60'
                                     }`}
                             >
                                 <Image
