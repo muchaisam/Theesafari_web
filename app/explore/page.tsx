@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -11,7 +11,16 @@ import { usePlaces, useCategories } from '../hooks/useFirestore';
 import { Place } from '../types/place';
 import { CardSkeletonList } from '../components/skeletons';
 
+// Wrapper component to handle Suspense boundary
 export default function ExplorePage() {
+    return (
+        <Suspense fallback={<CardSkeletonList />}>
+            <ExploreContent />
+        </Suspense>
+    );
+}
+
+function ExploreContent() {
     const searchParams = useSearchParams();
     const categoryParam = searchParams.get('category');
 
