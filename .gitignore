@@ -25,7 +25,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
+# Environment variables - IMPORTANT: Never commit these!
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 .env*.local
 
 # vercel
@@ -35,6 +40,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-
-.env
+# IDE
 .idea
+.vscode
+
+# Firebase
+firebase-debug.log
+.firebase/
+
+# Misc
+places.json
+*.log
