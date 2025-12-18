@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import Image from "next/image";
 import { motion } from 'framer-motion';
 import { Smartphone, Star, MapPin, Download } from 'react-feather';
+import { GiWillowTree } from 'react-icons/gi';
 
 const CTA: React.FC = () => {
     return (
@@ -104,14 +104,10 @@ const CTA: React.FC = () => {
                             {/* Phone mockup frame */}
                             <div className="relative mx-auto w-64">
                                 <div className="bg-gray-900 rounded-[3rem] p-3 shadow-2xl">
-                                    <div className="bg-white rounded-[2.5rem] overflow-hidden">
-                                        <Image
-                                            src="/safari.webp"
-                                            alt="Theesafari App"
-                                            width={250}
-                                            height={500}
-                                            className="w-full h-auto"
-                                        />
+                                    <div className="bg-gradient-to-br from-teal-400 to-emerald-600 rounded-[2.5rem] overflow-hidden h-[500px] flex flex-col items-center justify-center">
+                                        <GiWillowTree className="w-24 h-24 text-white mb-4" />
+                                        <span className="text-white text-2xl font-bold">Theesafari</span>
+                                        <span className="text-white/70 text-sm mt-2">Discover Kenya</span>
                                     </div>
                                 </div>
                                 {/* Decorative notch */}
