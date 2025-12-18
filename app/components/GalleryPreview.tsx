@@ -1,90 +1,147 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { FaRegImages } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { Place } from '../types/place';
 
-const Gallery: React.FC = () => {
+interface GalleryProps {
+  places?: Place[];
+}
+
+const Gallery: React.FC<GalleryProps> = ({ places = [] }) => {
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+
+  // Get random images from places
+  const galleryImages = useMemo(() => {
+    const images: { src: string; alt: string; id: string }[] = [];
+
+    const shuffledPlaces = [...places].sort(() => Math.random() - 0.5);
+
+    for (const place of shuffledPlaces) {
+      if (images.length >= 3) break;
+
+      if (place.primaryImage) {
+        images.push({
+          src: place.primaryImage,
+          alt: place.basic_information?.name || 'Kenya destination',
+          id: place.id
+        });
+      }
+    }
+
+    // Fallback if not enough images
+    while (images.length < 3) {
+      images.push({
+        src: '/safari.webp',
+        alt: 'Kenya landscape',
+        id: 'default'
+      });
+    }
+
+    return images;
+  }, [places]);
+
+  const handleImageError = (index: number) => {
+    setImageErrors(prev => new Set(prev).add(index));
+  };
+
   return (
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-6xl px-4 mx-auto sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-2 items-center">
-            <motion.div
-                className="flex flex-col justify-center md:pr-8 xl:pr-0 lg:max-w-lg"
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-            >
-              <div className="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-teal-100 text-teal-600">
-                <FaRegImages className="w-8 h-8" />
-              </div>
-              <h2 className="max-w-lg mb-6 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-none">
-                Preview your next{' '}
-                <span className="inline-block text-teal-600">
-                destination
+    <section id="gallery" className="bg-gray-50 py-16">
+      <div className="max-w-6xl px-4 mx-auto sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-2 items-center">
+          <motion.div
+            className="flex flex-col justify-center md:pr-8 xl:pr-0 lg:max-w-lg"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-teal-100 text-teal-600">
+              <FaRegImages className="w-8 h-8" />
+            </div>
+            <h2 className="max-w-lg mb-6 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl sm:leading-none">
+              Preview your next{' '}
+              <span className="inline-block text-teal-600">
+                adventure
               </span>
-              </h2>
-              <p className="text-base text-gray-700 md:text-lg mb-8">
-                Step into our gallery and be transported to a world of wonder. Our carefully curated collection showcases the diverse landscapes and rich cultural heritage of Kenya, from bustling cityscapes to serene natural wonders.
-              </p>
-              <Link href="/Gallery"
-                    className="inline-flex items-center px-6 py-3 font-semibold text-white transition-colors duration-200 bg-teal-600 rounded-full hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-opacity-50"
-              >
-                Explore Gallery
-                <svg
-                    className="inline-block w-4 h-4 ml-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                </svg>
-              </Link>
-            </motion.div>
-            <motion.div
-                className="grid grid-cols-2 gap-4 md:gap-6 lg:gap-8"
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+            </h2>
+            <p className="text-base text-gray-700 md:text-lg mb-8">
+              From breathtaking landscapes to hidden cultural gems, explore our collection
+              of Kenya&apos;s most captivating destinations. Each photo tells a story waiting to be discovered.
+            </p>
+            <Link
+              href="/explore"
+              className="inline-flex items-center px-6 py-3 font-semibold text-white transition-all duration-200 bg-teal-600 rounded-full hover:bg-teal-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-opacity-50 w-fit"
             >
-              <div className="space-y-4 md:space-y-6 lg:space-y-8">
-                <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-                  <Image
-                      className="object-cover w-full h-auto rounded-2xl shadow-lg"
-                      src="https://images.unsplash.com/photo-1611348524140-53c9a25263d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bmFpcm9iaXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                      alt="Nairobi skyline"
-                      width={500}
-                      height={500}
-                  />
+              Explore All
+              <svg
+                className="inline-block w-4 h-4 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </Link>
+          </motion.div>
+          <motion.div
+            className="grid grid-cols-2 gap-4 md:gap-6"
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="space-y-4 md:space-y-6">
+              {galleryImages.slice(0, 2).map((image, index) => (
+                <motion.div
+                  key={`${image.id}-${index}`}
+                  whileHover={{ scale: 1.03, y: -5 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link href={image.id !== 'default' ? `/picks/${image.id}` : '/explore'}>
+                    <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg group">
+                      <Image
+                        className="object-cover transition-transform duration-500 group-hover:scale-110"
+                        src={imageErrors.has(index) ? '/safari.webp' : image.src}
+                        alt={image.alt}
+                        fill
+                        sizes="(max-width: 768px) 50vw, 250px"
+                        onError={() => handleImageError(index)}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  </Link>
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-                  <Image
-                      className="object-cover w-full h-auto rounded-2xl shadow-lg"
-                      src="https://images.unsplash.com/photo-1562082089-ae7d7acbd18d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fG5haXJvYml8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-                      alt="Kenyan market"
-                      width={500}
-                      height={500}
-                  />
-                </motion.div>
-              </div>
-              <div className="space-y-4 md:space-y-6 lg:space-y-8 mt-8 md:mt-12">
-                <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-                  <Image
-                      className="object-cover w-full h-auto rounded-2xl shadow-lg"
-                      src="https://images.unsplash.com/photo-1562053232-1b9ef8cd1f26?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fG5haXJvYml8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-                      alt="Kenyan forest"
-                      width={500}
-                      height={500}
-                  />
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
+              ))}
+            </div>
+            <div className="mt-8 md:mt-12">
+              <motion.div
+                whileHover={{ scale: 1.03, y: -5 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Link href={galleryImages[2]?.id !== 'default' ? `/picks/${galleryImages[2]?.id}` : '/explore'}>
+                  <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-lg group">
+                    <Image
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      src={imageErrors.has(2) ? '/safari.webp' : galleryImages[2]?.src}
+                      alt={galleryImages[2]?.alt}
+                      fill
+                      sizes="(max-width: 768px) 50vw, 250px"
+                      onError={() => handleImageError(2)}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                </Link>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
-      </section>
+      </div>
+    </section>
   );
 }
 
