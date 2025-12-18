@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ChevronDown, MapPin, Star } from "react-feather";
+import { GiWillowTree } from "react-icons/gi";
 import { Place } from "../types/place";
 
 interface HeroProps {
@@ -17,20 +18,18 @@ export default function HeroSection({ places = [], loading = false }: HeroProps)
 
   // Get random images from places
   const slides = useMemo(() => {
-    if (places.length === 0) {
-      return [
-        { src: "/safari.webp", alt: "Discover Kenya", name: "Explore Kenya", category: "Adventure" },
-      ];
-    }
-
     // Shuffle places and pick up to 6 with valid main images
     const shuffled = [...places]
       .filter(place => place.primaryImage)
       .sort(() => Math.random() - 0.5)
       .slice(0, 6);
 
+    if (shuffled.length === 0) {
+      return []; // Will show placeholder
+    }
+
     return shuffled.map(place => ({
-      src: place.primaryImage || '/safari.webp',
+      src: place.primaryImage,
       alt: place.basic_information?.name || 'Kenya destination',
       name: place.basic_information?.name || 'Hidden Gem',
       category: place.categorization?.primary_category || 'Experience',
@@ -200,8 +199,8 @@ export default function HeroSection({ places = [], loading = false }: HeroProps)
               <button
                 key={index}
                 className={`transition-all duration-300 ${index === currentSlide
-                    ? "w-8 h-2 bg-teal-400 rounded-full"
-                    : "w-2 h-2 bg-white/50 rounded-full hover:bg-white/80"
+                  ? "w-8 h-2 bg-teal-400 rounded-full"
+                  : "w-2 h-2 bg-white/50 rounded-full hover:bg-white/80"
                   }`}
                 onClick={() => {
                   setImageLoaded(false);
