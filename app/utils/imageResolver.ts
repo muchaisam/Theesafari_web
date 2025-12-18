@@ -59,10 +59,10 @@ export function resolveAllImages<T extends { id: string; primaryImage: string; i
 }
 
 /**
- * Placeholder image URL for loading states or errors
- * Using an existing image in the public folder
+ * Placeholder image - use PlaceholderImage component instead for React
+ * This constant is kept for legacy compatibility but prefer using the component
  */
-export const PLACEHOLDER_IMAGE = '/safari.webp';
+export const PLACEHOLDER_IMAGE = '/nbo.webp';
 
 /**
  * Generate a blur data URL for image placeholders
