@@ -4,6 +4,7 @@ import React, { useState, useRef } from 'react';
 import Image from "next/image";
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, MapPin, Star } from 'react-feather';
+import { GiWillowTree } from 'react-icons/gi';
 import { useRouter } from "next/navigation";
 import LoadingBar from "react-top-loading-bar";
 import { Place } from '../types/place';
@@ -95,16 +96,22 @@ const Destinations: React.FC<DestinationsProps> = ({ places, loading = false }) 
                   <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
                     {/* Image container */}
                     <div className="relative h-52 overflow-hidden">
-                      <Image
-                        fill
-                        src={imageErrors.has(place.id) ? '/safari.webp' : place.primaryImage}
-                        alt={place.basic_information.name}
-                        className="object-cover transition-transform duration-500 hover:scale-110"
-                        onError={() => handleImageError(place.id)}
-                        sizes="320px"
-                      />
+                      {imageErrors.has(place.id) || !place.primaryImage ? (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-teal-500 to-emerald-600">
+                          <GiWillowTree className="w-16 h-16 text-white/60" />
+                        </div>
+                      ) : (
+                        <Image
+                          fill
+                          src={place.primaryImage}
+                          alt={place.basic_information.name}
+                          className="object-cover transition-transform duration-500 hover:scale-110"
+                          onError={() => handleImageError(place.id)}
+                          sizes="320px"
+                        />
+                      )}
                       {/* Category badge */}
-                      <div className="absolute top-3 left-3">
+                      <div className="absolute top-3 left-3 z-10">
                         <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-gray-700">
                           {place.categorization.primary_category}
                         </span>
